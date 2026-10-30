@@ -1,0 +1,31 @@
+# coach-signature
+
+Bilder und Vorlage für die E-Mail-Signatur von Thomas Stiegler, executive-coachings.com.
+Die Bilder werden über GitHub Pages unter `https://sepkrahe.github.io/coach-signature/bilder/` ausgeliefert.
+
+Farben und Schriften stammen aus dem Design System "Executive Coachings"
+(https://claude.ai/artifact/BacdKe8KtJ3AkkjxEA9qEu): Navy `#1F2D3D`, Slate `#6B7C8C`,
+gedämpfter Text `#5E6E7D`, Fläche `#F7F7F7`; Name und Tagline in Libre Baskerville
+(Fallback Baskerville/Georgia), Text in Helvetica/Arial (Almarai läuft in E-Mail-Programmen nicht).
+
+## Inhalt
+- `bilder/` – Logo und Icons (PNG, doppelte Auflösung)
+- `build.py` – erzeugt die Signatur: `python3 build.py https://sepkrahe.github.io/coach-signature/bilder dist`
+- `lint.py` – prüft die Signatur auf E-Mail-Kompatibilität: `python3 lint.py dist/snippet-mit-adresse.html`
+- `daten.example.json` – Vorlage für die Kontaktdaten. Die echten Daten liegen nur lokal in `daten.json` (nicht im Repository). Ist `telefon` leer, entfällt die Telefonzeile.
+
+## Ausgabe (`dist/`)
+- `signatur-*.html` – Vorschau im Browser; in Safari öffnen, alles markieren, in Apple Mail / Outlook einfügen
+- `apple-mail-*.txt` – Inhalt für eine `.mailsignature`-Datei
+- `snippet-*.html` – reines HTML für Gmail, Outlook oder andere Werkzeuge
+
+Je eine Variante mit und ohne Adresse.
+
+## Umgesetzte Best Practices
+- Bilder über https gehostet statt eingebettet (Gmail blockiert Base64-Bilder)
+- Tabellen-Layout, nur Inline-CSS, 460 px breit, auf Mobilgeräten fließend
+- Hintergrundfarben zusätzlich als `bgcolor` (Outlook)
+- Icons dekorativ (`alt=""`), Logo mit Alt-Text
+- Unter 10.000 Zeichen (Gmail-Limit), nur ASCII
+
+Kontaktdaten werden bewusst nicht veröffentlicht.

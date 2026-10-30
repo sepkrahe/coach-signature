@@ -27,9 +27,21 @@ LINKS = {
     "web": (_d["website_link"], _d["website"], "Website"),
     "linkedin": (_d["linkedin_link"], "LinkedIn", "LinkedIn"),
 }
-ADDRESS = _d["adresse"]
+
+
+def keep_parts(text):
+    """Give an "A &middot; B &middot; C" line one break point, after its first
+    half, so a phone shows two balanced lines and never a lone last word such as a
+    city name."""
+    parts = [p.strip().replace(" ", "&nbsp;") for p in text.split("&middot;")]
+    k = max(1, len(parts) // 2)
+    return " ".join(["&nbsp;&middot;&nbsp;".join(parts[:k]) + "&nbsp;&middot;",
+                     "&nbsp;&middot;&nbsp;".join(parts[k:])]) if len(parts) > 1 else parts[0]
+
+
+ADDRESS = keep_parts(_d["adresse"])
 TAGLINE = _d["tagline"]
-ROLES = _d["rollen"]
+ROLES = keep_parts(_d["rollen"])
 
 
 def icon(name, alt):
@@ -39,8 +51,9 @@ def icon(name, alt):
 
 def contact(name, pad_bottom, pad_right):
     href, label, alt = LINKS[name]
+    # The gap is padding, not cell width, so it survives when a phone squeezes the table.
     return (
-        f'<td width="30" valign="middle" style="padding:0 0 {pad_bottom}px 0;width:30px;">{icon(name, alt)}</td>'
+        f'<td width="22" valign="middle" style="padding:0 8px {pad_bottom}px 0;width:22px;">{icon(name, alt)}</td>'
         f'<td valign="middle" style="padding:0 {pad_right}px {pad_bottom}px 0;font-family:{FONT};font-size:13px;line-height:18px;color:{NAVY};">'
         f'<a href="{href}" style="color:{NAVY};text-decoration:none;">{label}</a></td>'
     )
@@ -55,13 +68,13 @@ def build(with_address):
         if with_address else ""
     )
     return f'''<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="460" style="border-collapse:collapse;width:100%;max-width:460px;font-family:{FONT};">
-<tr><td bgcolor="{CARD}" style="background-color:{CARD};padding:20px 20px;">
+<tr><td bgcolor="{CARD}" style="background-color:{CARD};padding:20px 16px;">
 <table cellpadding="0" cellspacing="0" border="0" role="presentation" width="100%" style="border-collapse:collapse;width:100%;">
 <tr>
-<td width="82" valign="top" style="padding:2px 18px 0 0;width:64px;"><a href="{LINKS["web"][0]}" style="text-decoration:none;"><img src="{BASE}/sig-logo.png" width="64" height="58" alt="Executive Coachings" style="display:block;width:64px;height:58px;border:0;outline:none;"></a></td>
+<td width="56" valign="top" style="padding:2px 16px 0 0;width:56px;"><a href="{LINKS["web"][0]}" style="text-decoration:none;"><img src="{BASE}/sig-logo.png" width="56" height="50" alt="Executive Coachings" style="display:block;width:56px;height:50px;border:0;outline:none;"></a></td>
 <td valign="top" width="100%">
 <table cellpadding="0" cellspacing="0" border="0" role="presentation" width="100%" style="border-collapse:collapse;width:100%;">
-<tr><td colspan="2" style="font-family:{SERIF};font-size:18px;line-height:24px;font-weight:normal;letter-spacing:1px;text-transform:uppercase;color:{NAVY};">{NAME}</td></tr>
+<tr><td colspan="2" style="font-family:{SERIF};font-size:18px;line-height:24px;font-weight:normal;letter-spacing:0.5px;text-transform:uppercase;color:{NAVY};">{NAME}</td></tr>
 <tr><td colspan="2" style="padding:4px 0 14px 0;font-family:{FONT};font-size:12px;line-height:16px;color:{MUTED};">{ROLES}</td></tr>
 {contacts}
 {address}
@@ -70,7 +83,7 @@ def build(with_address):
 </tr>
 </table>
 </td></tr>
-<tr><td bgcolor="{NAVY}" style="background-color:{NAVY};padding:11px 20px;font-family:{SERIF};font-size:11px;line-height:15px;letter-spacing:1px;text-transform:uppercase;color:{WHITE};">{TAGLINE}</td></tr>
+<tr><td bgcolor="{NAVY}" style="background-color:{NAVY};padding:11px 16px;font-family:{SERIF};font-size:11px;line-height:15px;letter-spacing:1px;text-transform:uppercase;color:{WHITE};">{TAGLINE}</td></tr>
 </table>'''
 
 

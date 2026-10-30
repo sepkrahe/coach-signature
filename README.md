@@ -1,7 +1,7 @@
 # coach-signature
 
 Bilder und Vorlage für die E-Mail-Signatur von Thomas Stiegler, executive-coachings.com.
-Die Bilder werden über GitHub Pages unter `https://sepkrahe.github.io/coach-signature/bilder/` ausgeliefert.
+Die Bilder werden über GitHub Pages unter `https://signatur.executive-coachings.com/bilder/` ausgeliefert.
 
 Farben und Schriften stammen aus dem Design System "Executive Coachings"
 (https://claude.ai/artifact/BacdKe8KtJ3AkkjxEA9qEu): Navy `#1F2D3D`, Slate `#6B7C8C`,
@@ -10,7 +10,7 @@ gedämpfter Text `#5E6E7D`, Fläche `#F7F7F7`; Name und Tagline in Libre Baskerv
 
 ## Inhalt
 - `bilder/` – Logo und Icons (PNG, doppelte Auflösung)
-- `build.py` – erzeugt die Signatur: `python3 build.py https://sepkrahe.github.io/coach-signature/bilder dist`
+- `build.py` – erzeugt die Signatur: `python3 build.py https://signatur.executive-coachings.com/bilder dist`
 - `lint.py` – prüft die Signatur auf E-Mail-Kompatibilität: `python3 lint.py dist/snippet-mit-adresse.html`
 - `daten.example.json` – Vorlage für die Kontaktdaten. Die echten Daten liegen nur lokal in `daten.json` (nicht im Repository). Ist `telefon` leer, entfällt die Telefonzeile.
 

@@ -26,7 +26,7 @@ Je eine Variante mit und ohne Adresse.
 ## Umgesetzte Best Practices
 - Bilder über https gehostet statt eingebettet (Gmail blockiert Base64-Bilder)
 - Bilder in doppelter Auflösung mit festen `width`/`height`-Attributen
-- Tabellen-Layout, nur Inline-CSS, 460 px breit, auf Mobilgeräten fließend
+- Tabellen-Layout, nur Inline-CSS, 540 px breit; Kontakte zweispaltig, auf Mobilgeräten untereinander (Hybrid-Spalten mit Outlook-Fallback)
 - Hintergrundfarben zusätzlich als `bgcolor` (Outlook)
 - Icons dekorativ (`alt=""`), Logo mit Alt-Text
 - Unter 10.000 Zeichen (Gmail-Limit), nur ASCII

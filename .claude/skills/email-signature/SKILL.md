@@ -16,7 +16,7 @@ compatibility. Read this whole file before changing anything. Its sibling
 |---|---|---|
 | `bilder/` | yes (GitHub Pages) | Logo and icons as PNG at 2x display size |
 | `build.py` | yes | Builds the signature from a template |
-| `lint.py` | yes | Compatibility checks (12 rules) |
+| `lint.py` | yes | Compatibility checks (13 rules) |
 | `test_render.py` | yes | Renders 7 simulated client scenarios |
 | `daten.example.json` | yes | Placeholder contact data |
 | `daten.json` | **no** (gitignored) | The real contact data |
@@ -43,14 +43,22 @@ and stop if it finds real data. Commit as
    22 × 22 (file 44 × 44). Without the attributes, Outlook and Apple Mail's
    paste show images at full pixel size.
 3. **Tables for layout, inline styles only.** No `<style>`, no classes,
-   no `div` layout, no flexbox, grid, `position`, `float` or
-   `background-image`.
+   no flexbox, grid, `position`, `float`, media queries or
+   `background-image`. The one allowed `div` use is the hybrid columns
+   in rule 5.
 4. **Background colours twice:** `bgcolor` attribute and inline
    `background-color` (Outlook Desktop reads the attribute).
-5. **Width:** 460px with `width="460"` and
-   `style="width:100%;max-width:460px"`: fixed in Outlook, fluid on phones.
-   Contacts stack in one column. Gaps between an icon and its text are
-   padding, not cell width, so a phone cannot squeeze them away.
+5. **Width:** 540px with `width="540"` and
+   `style="width:100%;max-width:540px"`: fixed in Outlook, fluid on phones.
+   The contacts sit in two columns side by side (as in rocket-signature)
+   as **hybrid columns**: two `display:inline-block` divs with
+   `width:100%;max-width:<n>px` (206px: phone, website; 226px: email,
+   LinkedIn, the longest line) that wrap under each other on narrow
+   screens, inside a cell with `font-size:0`, plus an `<!--[if mso]>`
+   two-column table for Outlook Desktop, which ignores `max-width`. A
+   plain two-column table would be cut off on phones. Gaps between an
+   icon and its text are padding, not cell width, so a phone cannot
+   squeeze them away.
 6. **Fonts:** text in `Helvetica, Arial, sans-serif` (the brand's Almarai
    is a web font; mail clients don't load it). Name and tagline in
    `'Libre Baskerville', Baskerville, Georgia, serif`: Apple Mail shows
@@ -74,12 +82,15 @@ and stop if it finds real data. Commit as
 13. **Line breaks on phones:** lines made of parts ("A · B · C": roles,
     address) get one break point, after their first half; `build.py`
     (`keep_parts`) joins everything else with `&nbsp;`. At 360px the name
-    must stay on one line and no line may hold a single word.
+    must stay on one line and no line may hold a single word. An empty
+    `telefon` leaves the phone row out of the left column; the email
+    address then moves up into it.
 
 Design source: the **Executive Coachings** design system
 (https://claude.ai/artifact/BacdKe8KtJ3AkkjxEA9qEu), component
 `EmailSignature`, which documents every colour and size. Colours: navy
-`#1F2D3D` (text, icons, band), muted `#5E6E7D`, mist `#F7F7F7` (card),
+`#1F2D3D` (text, icons, band), muted `#5E6E7D` (roles: 11px bold
+capitals, 1.2px tracking; address), mist `#F7F7F7` (card),
 white. One accent only: the navy band with the tagline "Klarheit. Kraft.
 Konsequenz.". No gradients, no shadows, no call-to-action button. Change a
 colour in the design system first, then in `build.py`.
